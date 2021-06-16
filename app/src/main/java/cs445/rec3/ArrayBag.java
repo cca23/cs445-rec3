@@ -235,7 +235,34 @@ public class ArrayBag<E> implements BagInterface<E> {
         // TODO: Rewrite this method so that it works according to the contents
         // of the bags (this and other). Be sure to consider if other is null,
         // or a type other than ArrayBag.
-        return this == other;
+        
+        //always check if the thing you're pasisng into a method is null
+        if (other == null) {
+            return false;
+        }
+
+        if(!(other instanceof ArrayBag)){
+            return false;
+        }
+
+        ArrayBag bOther = (ArrayBag) other;
+        if (this.getCurrentSize() != bOther.getCurrentSize()) {
+            return false;
+        }
+
+        // check tht sizes are the same
+        if (this.getCurrentSize() != bOther.getCurrentSize()) {
+            return false;
+        } 
+
+        //check the elements in the bag
+        //for every item in bag A, make sure u hav the same number of that item in bag B
+        for(int i = 0; i < size; i++){
+            if(this.getFrequencyOf(bag[i]) != bOther.getFrequencyOf(bag[i])){
+               return false; 
+            }
+        }
+        return true;
     }
 
     /**
@@ -247,6 +274,17 @@ public class ArrayBag<E> implements BagInterface<E> {
     public void removeDuplicatesOf(E anEntry){
         // TODO: Write this method so that it removes all duplicate entries of
         // the given Entry from this bag while leaving the first instance of it
+        int first = getIndexOf(anEntry);
+        if (first >= 0) {
+            for(int j = first + 1; j < size ; j++){
+                if(anEntry.equals(bag[j])) {
+                    removeEntry(j);
+
+                    j--;
+                }
+            }
+        }
+
     }
 
     /**
@@ -257,6 +295,9 @@ public class ArrayBag<E> implements BagInterface<E> {
     public void removeAllDuplicates() {
         // TODO: Write this method so that it removes all duplicate entries from
         // this bag
+        for(int i = 0; i < size; i++){
+            removeDuplicatesOf(bag[i]);
+        }
     }
 }
 
